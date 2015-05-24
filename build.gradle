@@ -1,7 +1,16 @@
 apply plugin:'groovy'
 
+ext{
+  groovyVersion = '2.4.3'
+}
+
 repositories{
   jcenter()
+}
+
+dependencies{
+  compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+  testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
 
 task wrapper(type: Wrapper){
