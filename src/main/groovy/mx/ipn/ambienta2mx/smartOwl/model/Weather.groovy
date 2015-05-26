@@ -1,4 +1,4 @@
-package mx.ipn.ambienta2mx.smartOwl.domain
+package mx.ipn.ambienta2mx.smartOwl.model
 
 @groovy.transform.Canonical
 class Weather{
