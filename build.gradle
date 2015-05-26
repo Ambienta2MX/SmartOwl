@@ -16,3 +16,9 @@ dependencies{
 task wrapper(type: Wrapper){
   gradleVersion = '2.4'
 }
+
+task run(type:JavaExec){
+  main = 'Main'
+  classpath sourceSets.main.runtimeClasspath
+}
+
