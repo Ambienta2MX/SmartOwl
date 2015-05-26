@@ -4,8 +4,10 @@ package mx.ipn.ambienta2mx.smartOwl.model
 class Weather{
   Date weatherTime
   String description
-  String 
+  Double precipIntensity
+  Double precipProbability
   Double temperature  
+  Double apparentTemperature
   Double humidity
   Double windSpeed
   Double windBearing  
