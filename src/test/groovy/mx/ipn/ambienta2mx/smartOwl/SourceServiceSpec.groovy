@@ -4,6 +4,7 @@ import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
+import java.util.Properties
 
 class SourceServiceSpec extends Specification{
   
@@ -24,14 +25,27 @@ class SourceServiceSpec extends Specification{
                "http://smn.cna.gob.mx/emas/txt/DF09_10M.TXT"]
   }
 
-  @Unroll("Should return the JSON when https://api.forecast.io/forecast/ is consulted given the latitude #_latitude and longitude #_longitude") 
+
+  @Unroll("Should return the JSON when url is consulted given the latitude #_latitude and longitude #_longitude") 
   def "Should get the lines from file given an URL"(){
-    given:"an url"
-      def url = "https://api.forecast.io/forecast/"
+    given:"an url and the token from source"
+      def propertiesFile = new Properties()
+      def inputStream = this.class.classLoader.getResourceAsStream("sourcesInfo.properties")
+      propertiesFile.load(inputStream) 
+      def url = propertiesFile.getProperty "source.url"
+      def token = propertiesFile.getProperty "source.token"
+
+    and:"the location points"
+      def locationPoints = [latitude:_latitude,
+                           longitude:_longitude]
     when:
-      def jsonStructure = service.getJSONStructure(url,_latitude,_longitude)
+      def jsonStructure = service.getJSONFromUrlWithToken(url,token,locationPoints)
+
     then: 
-     
+      jsonStructure.humidity
+      jsonStructure.ozone
+      jsonStructure.precipIntensity
+    
     where:
       _latitude | _longitude
         19.395  | -99.025
