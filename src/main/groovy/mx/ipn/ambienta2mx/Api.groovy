@@ -1,4 +1,4 @@
-package com.ipn.ambienta2mx.smartOwl
+package mx.ipn.ambienta2mx.smartOwl
 
 @Singleton
 class Api{
