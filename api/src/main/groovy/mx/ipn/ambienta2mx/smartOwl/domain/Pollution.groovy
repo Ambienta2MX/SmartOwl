@@ -1,4 +1,4 @@
-package mx.ipn.ambienta2mx.smartOwl.model
+package mx.ipn.ambienta2mx.smartOwl.domain
 
 @groovy.transform.Canonical
 class Pollution{
