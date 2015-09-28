@@ -1,8 +1,8 @@
-package mx.ipn.ambienta2mx.smartOwl.services
+package mx.ipn.ambienta2mx.smartOwl.services.impl
 import mx.ipn.ambienta2mx.smartOwl.Api
 import groovy.json.JsonSlurper
 
-class SourceService{
+class SourceServiceImpl implements SourceService{
   
   def getFileLines(url){
     def lines = []  

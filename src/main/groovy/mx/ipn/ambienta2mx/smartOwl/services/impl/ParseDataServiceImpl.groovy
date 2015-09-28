@@ -1,7 +1,7 @@
-package mx.ipn.ambienta2mx.smartOwl.services
+package mx.ipn.ambienta2mx.smartOwl.services.impl
 import mx.ipn.ambienta2mx.smartOwl.model.Weather
 
-class ParseDataService{
+class ParseDataServiceImpl implements ParseDataService{
 
   //TODO:Desacoplar objecto mediante inversión de control con Spring 
   def sourceService 
