@@ -1,6 +1,7 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
 import mx.ipn.ambienta2mx.smartOwl.Api
 import groovy.json.JsonSlurper
+import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 
 class SourceServiceImpl implements SourceService{
   
