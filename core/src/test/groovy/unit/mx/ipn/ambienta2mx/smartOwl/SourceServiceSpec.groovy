@@ -1,6 +1,6 @@
-package mx.ipn.ambienta2mx.smartOwl
+package unit
 
-import mx.ipn.ambienta2mx.smartOwl.services.SourceService
+import mx.ipn.ambienta2mx.smartOwl.services.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
@@ -8,7 +8,7 @@ import java.util.Properties
 
 class SourceServiceSpec extends Specification{
   
-  @Shared service = new SourceService()
+  @Shared service = new SourceServiceImpl()
   
   @Unroll("Should return the file lines when #_url is consulted") 
   def "Should get the lines from file given an URL"(){

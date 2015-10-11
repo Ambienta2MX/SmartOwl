@@ -1,6 +1,6 @@
 package mx.ipn.ambienta2mx.smartOwl
 
-import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
+import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
@@ -9,9 +9,9 @@ import java.lang.Void as Should
 
 class ParseServiceSpec extends Specification{
  
-  @Shared service = new ParseDataService() 
-  
-  ParseDataService parseDataService
+  @Shared service = new ParseDataServiceImpl()
+ /* 
+  SourceServiceImpl sourceServiceImpl 
  
   @Ignore
   @Unroll("Should get the longitude #_longitude and altitude #_altitude given the url: #_url") 
@@ -48,5 +48,5 @@ class ParseServiceSpec extends Specification{
       weatherInfo.humidity == 0.85
       weatherInfo.cloudCover == 0.8
   }
- 
+*/ 
 }
