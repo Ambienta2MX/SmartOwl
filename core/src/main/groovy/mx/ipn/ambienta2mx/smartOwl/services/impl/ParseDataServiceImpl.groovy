@@ -7,6 +7,10 @@ class ParseDataServiceImpl implements ParseDataService{
   //TODO:Desacoplar objecto mediante inversión de control con Spring 
   def sourceService 
 
+  def getWeatherModelFromFile(File file){
+    file.readLines()
+  }
+
   def getWeatherModelFromJSON(latitude,longitude){
     def sourceService = new SourceServiceImpl()
     
