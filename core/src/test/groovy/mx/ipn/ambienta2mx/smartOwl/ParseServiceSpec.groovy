@@ -1,6 +1,7 @@
 package mx.ipn.ambienta2mx.smartOwl
 
 import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
@@ -10,7 +11,7 @@ import java.lang.Void as Should
 class ParseServiceSpec extends Specification{
  
   @Shared service = new ParseDataServiceImpl()
- /* 
+
   SourceServiceImpl sourceServiceImpl 
  
   @Ignore
@@ -30,7 +31,8 @@ class ParseServiceSpec extends Specification{
       "99°09'44\""  | 2946      | "http://smn.cna.gob.mx/emas/txt/DF08_10M.TXT"
       "99°09'29\""  | 2281      | "http://smn.cna.gob.mx/emas/txt/DF09_10M.TXT"
   }
- 
+
+  @Ignore
   @Unroll("Given the #_logitude and #_altitude") 
   Should "get the weather model"(){
     given:"the json data from collaborator"
@@ -48,5 +50,5 @@ class ParseServiceSpec extends Specification{
       weatherInfo.humidity == 0.85
       weatherInfo.cloudCover == 0.8
   }
-*/ 
+ 
 }

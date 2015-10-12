@@ -1,6 +1,6 @@
-package unit
+package mx.ipn.ambienta2mx.smartOwl
 
-import mx.ipn.ambienta2mx.smartOwl.services.SourceServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
