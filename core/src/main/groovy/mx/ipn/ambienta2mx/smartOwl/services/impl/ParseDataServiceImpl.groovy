@@ -8,7 +8,11 @@ class ParseDataServiceImpl implements ParseDataService{
   def sourceService 
 
   def getWeatherModelFromFile(File file){
-    file.readLines()
+    def linesWithoutDate = file.readLines().collect{ line -> 
+      line.replaceAll(/([0-9]{2}\/){2}([0-9]){4}\s([0-9]{2})\:[0-9]{2}/,'').trim() 
+    }
+    def nonEmptyLines = linesWithoutDate.findAll{ it } 
+    nonEmptyLines
   }
 
   def getWeatherModelFromJSON(latitude,longitude){
