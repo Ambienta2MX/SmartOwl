@@ -21,6 +21,7 @@ class ParseDataServiceImpl implements ParseDataService{
     def nonEmptyLines = linesWithoutDate.findAll{ it }
     def dividedLine = []
     nonEmptyLines.each{ line ->
+      dividedLine = line.tokenize(" ")
       if(dividedLine.every{ item -> item ==~ dataRegex})
         dataMatrix << dividedLine 
       else
