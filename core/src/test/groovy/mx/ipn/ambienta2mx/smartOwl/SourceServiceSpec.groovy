@@ -4,6 +4,7 @@ import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
+import spock.lang.Ignore
 import java.util.Properties
 
 class SourceServiceSpec extends Specification{
@@ -26,6 +27,7 @@ class SourceServiceSpec extends Specification{
   }
 
 
+  @Ignore
   @Unroll("Should return the JSON when url is consulted given the latitude #_latitude and longitude #_longitude") 
   def "Should get the lines from file given an URL"(){
     given:"an url and the token from source"
