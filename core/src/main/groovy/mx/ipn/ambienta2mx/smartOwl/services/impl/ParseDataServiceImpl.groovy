@@ -1,6 +1,7 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
 import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
 import mx.ipn.ambienta2mx.smartOwl.domain.Weather
+import mx.ipn.ambienta2mx.smartOwl.domain.Pollution
 
 class ParseDataServiceImpl implements ParseDataService{
 
@@ -52,8 +53,25 @@ class ParseDataServiceImpl implements ParseDataService{
                               
     ['WeatherInfo':weather]
   }
-  
+
   def getPollutionModelFromJSON(latitude,longitude){
+    def sourceService = new SourceServiceImpl()
+    
+    //Quitar url y token y obtener fuentes desde base
+    def url = "https://api.forecast.io/forecast"
+    def token = "754371a499f300218874a3d937c09830"
+    
+    def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
+                                                                 'longitude':longitude]) 
+    
+    println model
+    def pollution = new Pollution(airQuality:model.airQuality,
+                                  ozone:model.ozone,
+                                  sulphurDiode:model.sulphurDiode,
+                                  nitrogenDioxide:model.nitrogenDioxide,
+                                  carbonMonoxide:model.carbonMonoxide,
+                                  uv:model.uv)
+    ['PollutionInfo':pollution]
 
   }
   
