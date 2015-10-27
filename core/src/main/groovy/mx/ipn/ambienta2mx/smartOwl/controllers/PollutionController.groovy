@@ -13,13 +13,14 @@ import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
 @RestController
 @RequestMapping(value="/pollution")
 class PollutionController{
-  
-  //TODO:Desacoplar mediante inversión de control  
-  private ParseDataServiceImpl parseDataService = new ParseDataServiceImpl()
+
+  @Autowired
+  private ParseDataServiceImpl parseDataService
 
   @RequestMapping(method= RequestMethod.GET)
   ResponseEntity<Map> show(@RequestParam(value="latitude")String latitude,@RequestParam(value="longitude")String longitude){
     def model = parseDataService.getPollutionModelFromJSON(latitude,longitude)
     new ResponseEntity<Map>(model,HttpStatus.OK)
   }
+
 }
