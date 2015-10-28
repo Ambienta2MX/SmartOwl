@@ -2,11 +2,13 @@ package mx.ipn.ambienta2mx.smartOwl.services.impl
 import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
 import mx.ipn.ambienta2mx.smartOwl.domain.Weather
 import mx.ipn.ambienta2mx.smartOwl.domain.Pollution
+import org.springframework.stereotype.Service
 
+@Service
 class ParseDataServiceImpl implements ParseDataService{
 
-  //TODO:Desacoplar objecto mediante inversión de control con Spring 
-  def sourceService 
+  //TODO:Desacoplar objecto mediante inversión de control con Spring
+  def sourceService
 
   def getWeatherModelFromFile(File file){
     def classFields = Weather.declaredFields.grep{ !it.synthetic }*.name
@@ -16,30 +18,30 @@ class ParseDataServiceImpl implements ParseDataService{
     def dateRegex = /([0-9]{2}\/){2}([0-9]){4}\s([0-9]{2})\:[0-9]{2}/
     def dataRegex = /[0-9]+(\.[0-9]+)?/
 
-    def linesWithoutDate = file.readLines().collect{ line -> 
-      line.replaceAll(dateRegex,'').trim() 
+    def linesWithoutDate = file.readLines().collect{ line ->
+      line.replaceAll(dateRegex,'').trim()
     }
     def nonEmptyLines = linesWithoutDate.findAll{ it }
     def dividedLine = []
     nonEmptyLines.each{ line ->
       dividedLine = line.tokenize(" ")
       if(dividedLine.every{ item -> item ==~ dataRegex})
-        dataMatrix << dividedLine 
+        dataMatrix << dividedLine
       else
-        infoLines << dividedLine 
+        infoLines << dividedLine
     }
   }
 
   def getWeatherModelFromJSON(latitude,longitude){
     def sourceService = new SourceServiceImpl()
-    
+
     //Quitar url y token y obtener fuentes desde base
     def url = "https://api.forecast.io/forecast"
     def token = "754371a499f300218874a3d937c09830"
-    
+
     def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
-                                                                 'longitude':longitude]) 
-    
+                                                                 'longitude':longitude])
+
     def weather = new Weather(precipIntensity:model.precipIntensity,
                               precipProbability:model.precipProbability,
                               temperature:model.temperature,
@@ -50,20 +52,20 @@ class ParseDataServiceImpl implements ParseDataService{
                               visibility:model.visibility,
                               cloudCover:model.cloudCover,
                               pressure:model.pressure)
-                              
+
     ['WeatherInfo':weather]
   }
 
   def getPollutionModelFromJSON(latitude,longitude){
     def sourceService = new SourceServiceImpl()
-    
+
     //Quitar url y token y obtener fuentes desde base
     def url = "https://api.forecast.io/forecast"
     def token = "754371a499f300218874a3d937c09830"
-    
+
     def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
-                                                                 'longitude':longitude]) 
-    
+                                                                 'longitude':longitude])
+
     println model
     def pollution = new Pollution(airQuality:model.airQuality,
                                   ozone:model.ozone,
@@ -74,5 +76,5 @@ class ParseDataServiceImpl implements ParseDataService{
     ['PollutionInfo':pollution]
 
   }
-  
+
 }
