@@ -1,5 +1,7 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
+import org.springframework.beans.factory.annotation.Autowired
 import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
+import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 import mx.ipn.ambienta2mx.smartOwl.domain.Weather
 import mx.ipn.ambienta2mx.smartOwl.domain.Pollution
 import org.springframework.stereotype.Service
@@ -7,8 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class ParseDataServiceImpl implements ParseDataService{
 
-  //TODO:Desacoplar objecto mediante inversión de control con Spring
-  def sourceService
+  @Autowired
+  SourceService sourceService
 
   def getWeatherModelFromFile(File file){
     def classFields = Weather.declaredFields.grep{ !it.synthetic }*.name
