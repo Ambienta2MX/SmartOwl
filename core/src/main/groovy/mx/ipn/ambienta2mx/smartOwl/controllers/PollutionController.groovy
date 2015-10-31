@@ -15,7 +15,7 @@ import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
 class PollutionController{
 
   @Autowired
-  private ParseDataServiceImpl parseDataService
+  ParseDataServiceImpl parseDataService
 
   @RequestMapping(method= RequestMethod.GET)
   ResponseEntity<Map> show(@RequestParam(value="latitude")String latitude,@RequestParam(value="longitude")String longitude){

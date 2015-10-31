@@ -14,8 +14,8 @@ import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
 @RequestMapping(value="/weather")
 class WeatherController{
   
-  //TODO:Desacoplar mediante inversión de control  
-  private ParseDataServiceImpl parseDataService = new ParseDataServiceImpl()
+  @Autowired
+  ParseDataServiceImpl parseDataService
 
   @RequestMapping(method= RequestMethod.GET)
   ResponseEntity<Map> show(@RequestParam(value="latitude")String latitude,@RequestParam(value="longitude")String longitude){
