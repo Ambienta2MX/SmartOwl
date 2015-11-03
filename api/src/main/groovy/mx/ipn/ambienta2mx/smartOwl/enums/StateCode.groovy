@@ -1,4 +1,4 @@
-package mx.ipn.ambienta2mx.smartOwl
+package mx.ipn.ambienta2mx.smartOwl.enums
 
 enum StateCode{
   BC("Baja California"),
