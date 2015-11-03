@@ -1,11 +1,13 @@
 package mx.ipn.ambienta2mx.smartOwl
 
-import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
 import spock.lang.Ignore
 import java.util.Properties
+import java.lang.Void as Should
+import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
 
 class SourceServiceSpec extends Specification{
   
@@ -55,4 +57,14 @@ class SourceServiceSpec extends Specification{
         23.543  | -103.025
   }
 
+  
+  Should "get the urls of each station"(){ 
+    given:"the state code"
+      def stateCode = StateCode.DF
+    when:
+      def urls = service.getFileUrlsForStations(stateCode)
+    then:
+      urls.size() == 63  
+  }
+ 
 }
