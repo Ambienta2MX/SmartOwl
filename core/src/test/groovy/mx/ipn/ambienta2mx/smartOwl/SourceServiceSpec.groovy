@@ -65,6 +65,7 @@ class SourceServiceSpec extends Specification{
       def urls = service.getFileUrlsForStations(stateCode)
     then:
       urls.size() == 63  
+      urls.first().startsWith("http://smn.cna.gob.mx")
   }
  
 }
