@@ -31,15 +31,22 @@ class SourceServiceImpl implements SourceService{
 
   def getFileUrlsForStations(StateCode stateCode){
     def stationUrls = []
-    //TODO: Externalize conagua hostName
+    //TODO: Externalize CONAGUA hostName
+    def stations = []
     def hostName = "smn.cna.gob.mx"
     def formedUrl = "emas/${stateCode.key}MP10T" 
     def url = "http://${hostName}/${formedUrl}.html"
 
     def slurper = new XmlSlurper(new Parser())
     def htmlParse = slurper.parse(url)
-    stationUrls = htmlParse.'**'.find{ it.@id == 'mapa_solo' }.div.findAll{ it.@id.toString().startsWith("estacion") }*.@id 
-    stationUrls 
+    stationUrls = htmlParse.'**'.find{ it.@id == 'mapa_solo' }.div.findAll{ it.@id.toString().startsWith("estacion") }*.@onclick
+    stationUrls.each{ station ->
+      stations << (station.toString() =~ /\/.*.htm/)[0]
+    }
+    stations = stations*.replace("estac","txt")
+    stations.collect{ station ->
+      "http://${hostName}${station.replace(/10.htm/,"_10M.TXT")}"
+    }
   }
 
 }
