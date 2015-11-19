@@ -8,4 +8,6 @@ class Pollution{
   Double nitrogenDioxide 
   Double carbonMonoxide
   Double uv
+  List<String> provider
+  Date dateCreated
 }
