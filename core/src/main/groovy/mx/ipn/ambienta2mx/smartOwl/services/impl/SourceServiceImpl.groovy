@@ -29,7 +29,7 @@ class SourceServiceImpl implements SourceService{
     jsonStructure.currently
   }
 
-  def getFileUrlsForStations(StateCode stateCode){
+  def getFileUrlsForStation(StateCode stateCode){
     def stationUrls = []
     //TODO: Externalize CONAGUA hostName
     def stations = []
@@ -47,6 +47,16 @@ class SourceServiceImpl implements SourceService{
     stations.collect{ station ->
       "http://${hostName}${station.replace(/10.htm/,"_10M.TXT")}"
     }
+  }
+  
+  def getFileUrlsOfCountry(){
+    def countryFileUrls = [:]
+
+    StateCode.values().each{ stateCode ->
+      countryFileUrls[stateCode.key] = getFileUrlsForStation(stateCode)
+    }
+
+    countryFileUrls
   }
 
 }
