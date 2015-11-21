@@ -13,22 +13,6 @@ class SourceServiceSpec extends Specification{
   
   @Shared service = new SourceServiceImpl()
   
-  @Unroll("Should return the file lines when #_url is consulted") 
-  def "Should get the lines from file given an URL"(){
-    given:"an url"
-      def url = _url 
-    when:
-      def lines = service.getFileLines(url) 
-    then: 
-      lines.size() > 0
-    where:
-      _url << ["http://smn.cna.gob.mx/emas/txt/DF15_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF06_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF08_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF09_10M.TXT"]
-  }
-
-
   @Ignore
   @Unroll("Should return the JSON when url is consulted given the latitude #_latitude and longitude #_longitude") 
   def "Should get the lines from file given an URL"(){

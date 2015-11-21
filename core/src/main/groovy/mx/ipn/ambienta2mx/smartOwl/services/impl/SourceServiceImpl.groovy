@@ -10,16 +10,6 @@ import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
 @Service
 class SourceServiceImpl implements SourceService{
 
-  def getFileLines(url){
-    def lines = []
-
-    url.toURL().eachLine{ line ->
-      lines << line
-    }
-
-    lines
-  }
-
   def getJSONFromUrlWithToken(String url,String token,Map coordinates){
     def jsonSlurper = new JsonSlurper()
     def api = Api.instance
