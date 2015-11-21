@@ -57,15 +57,21 @@ class SourceServiceSpec extends Specification{
         23.543  | -103.025
   }
 
-  
   Should "get the urls of each station"(){ 
     given:"the state code"
       def stateCode = StateCode.DF
     when:
-      def urls = service.getFileUrlsForStations(stateCode)
+      def urls = service.getFileUrlsForStation(stateCode)
     then:
       urls.size() == 63  
       urls.first().startsWith("http://smn.cna.gob.mx")
   }
- 
+  
+  Should "get the urls of the country"(){
+    when:
+      def countryUrls = service.getFileUrlsOfCountry()
+    then:
+      countryUrls["DF"].size() == 63
+  }
+
 }
