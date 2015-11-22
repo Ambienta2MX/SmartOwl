@@ -12,8 +12,7 @@ import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
 class SourceServiceSpec extends Specification{
   
   @Shared service = new SourceServiceImpl()
-  
-  @Ignore
+
   @Unroll("Should return the JSON when url is consulted given the latitude #_latitude and longitude #_longitude") 
   def "Should get the lines from file given an URL"(){
     given:"an url and the token from source"
@@ -32,7 +31,6 @@ class SourceServiceSpec extends Specification{
     then: 
       jsonStructure.humidity
       jsonStructure.ozone
-      jsonStructure.precipIntensity
     
     where:
       _latitude | _longitude
@@ -52,10 +50,13 @@ class SourceServiceSpec extends Specification{
   }
   
   Should "get the urls of the country"(){
+    given:
+      StateCode.metaClass.static.values = {[StateCode.BC,StateCode.DF]}
     when:
       def countryUrls = service.getFileUrlsOfCountry()
     then:
-      countryUrls
+      countryUrls.first().latitude.class.simpleName == "BigDecimal"
+      countryUrls.first().url.class.simpleName == "String"
   }
 
   Should "get the decimal coordinates from degrees to decimal"(){
