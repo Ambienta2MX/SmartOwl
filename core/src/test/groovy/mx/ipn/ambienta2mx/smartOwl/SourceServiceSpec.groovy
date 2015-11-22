@@ -58,4 +58,13 @@ class SourceServiceSpec extends Specification{
       countryUrls["DF"].size() == 63
   }
 
+  Should "get the decimal coordinates from degrees to decimal"(){
+    given:"the longitude with minutes and seconds"
+      def longitude = ["98","27","58"] 
+    when:
+      def decimalLatitude = service.convertCoordinatesToDecimal(longitude)
+    then:
+      decimalLatitude == 98.4661
+  } 
+
 }
