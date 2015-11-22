@@ -55,16 +55,27 @@ class SourceServiceSpec extends Specification{
     when:
       def countryUrls = service.getFileUrlsOfCountry()
     then:
-      countryUrls["DF"].size() == 63
+      countryUrls
   }
 
   Should "get the decimal coordinates from degrees to decimal"(){
     given:"the longitude with minutes and seconds"
-      def longitude = ["98","27","58"] 
+      def latitude = ["28","53","47"]
+      def longitude = ["113","33","37"] 
     when:
-      def decimalLatitude = service.convertCoordinatesToDecimal(longitude)
+      def decimalCoordinates = service.convertCoordinatesToDecimal(latitude,longitude)
     then:
-      decimalLatitude == 98.4661
-  } 
-
+      decimalCoordinates.latitude == 28.8964
+      decimalCoordinates.longitude == -113.5603
+  }
+  
+  Should "get the latitude and longitude of the file"(){
+    given:"the url"
+      def fileUrl = "http://smn.cna.gob.mx/emas/txt/BC05_10M.TXT"
+    when:
+      def coordinates= service.getUrlCoordinates(fileUrl)
+    then:
+      coordinates.latitude == 28.8964
+      coordinates.longitude == -113.5603
+  }
 }
