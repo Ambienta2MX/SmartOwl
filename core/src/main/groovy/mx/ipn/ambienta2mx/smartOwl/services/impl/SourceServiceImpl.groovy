@@ -35,7 +35,7 @@ class SourceServiceImpl implements SourceService{
     }
     stations = stations*.replace("estac","txt")
     stations.collect{ station ->
-      "http://${hostName}${station.replace(/10.htm/,"_10M.TXT")}"
+      "http://${hostName}${station.replace(/10.htm/,"_10M.TXT")}".toString()
     }
   }
 
@@ -53,10 +53,15 @@ class SourceServiceImpl implements SourceService{
   } 
   
   def getFileUrlsOfCountry(){
-    def countryFileUrls = [:]
+    def countryFileUrls = []
 
     StateCode.values().each{ stateCode ->
-      countryFileUrls[stateCode.key] = getFileUrlsForStation(stateCode)
+      getFileUrlsForStation(stateCode).each{ url ->
+        def urlInfo = getUrlCoordinates(url)
+        urlInfo.url = url
+
+        countryFileUrls  << urlInfo
+      }
     }
 
     countryFileUrls
