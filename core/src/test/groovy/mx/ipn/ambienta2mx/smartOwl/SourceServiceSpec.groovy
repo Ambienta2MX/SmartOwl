@@ -1,33 +1,18 @@
 package mx.ipn.ambienta2mx.smartOwl
 
-import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
 import spock.lang.Ignore
 import java.util.Properties
+import java.lang.Void as Should
+import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
 
 class SourceServiceSpec extends Specification{
   
   @Shared service = new SourceServiceImpl()
-  
-  @Unroll("Should return the file lines when #_url is consulted") 
-  def "Should get the lines from file given an URL"(){
-    given:"an url"
-      def url = _url 
-    when:
-      def lines = service.getFileLines(url) 
-    then: 
-      lines.size() > 0
-    where:
-      _url << ["http://smn.cna.gob.mx/emas/txt/DF15_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF06_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF08_10M.TXT",
-               "http://smn.cna.gob.mx/emas/txt/DF09_10M.TXT"]
-  }
 
-
-  @Ignore
   @Unroll("Should return the JSON when url is consulted given the latitude #_latitude and longitude #_longitude") 
   def "Should get the lines from file given an URL"(){
     given:"an url and the token from source"
@@ -46,7 +31,6 @@ class SourceServiceSpec extends Specification{
     then: 
       jsonStructure.humidity
       jsonStructure.ozone
-      jsonStructure.precipIntensity
     
     where:
       _latitude | _longitude
@@ -55,4 +39,44 @@ class SourceServiceSpec extends Specification{
         23.543  | -103.025
   }
 
+  Should "get the urls of each station"(){ 
+    given:"the state code"
+      def stateCode = StateCode.DF
+    when:
+      def urls = service.getFileUrlsForStation(stateCode)
+    then:
+      urls.size() == 63  
+      urls.first().startsWith("http://smn.cna.gob.mx")
+  }
+  
+  Should "get the urls of the country"(){
+    given:
+      StateCode.metaClass.static.values = {[StateCode.BC,StateCode.DF]}
+    when:
+      def countryUrls = service.getFileUrlsOfCountry()
+    then:
+      countryUrls.first().latitude.class.simpleName == "BigDecimal"
+      countryUrls.first().url.class.simpleName == "String"
+  }
+
+  Should "get the decimal coordinates from degrees to decimal"(){
+    given:"the longitude with minutes and seconds"
+      def latitude = ["28","53","47"]
+      def longitude = ["113","33","37"] 
+    when:
+      def decimalCoordinates = service.convertCoordinatesToDecimal(latitude,longitude)
+    then:
+      decimalCoordinates.latitude == 28.8964
+      decimalCoordinates.longitude == -113.5603
+  }
+  
+  Should "get the latitude and longitude of the file"(){
+    given:"the url"
+      def fileUrl = "http://smn.cna.gob.mx/emas/txt/BC05_10M.TXT"
+    when:
+      def coordinates= service.getUrlCoordinates(fileUrl)
+    then:
+      coordinates.latitude == 28.8964
+      coordinates.longitude == -113.5603
+  }
 }
