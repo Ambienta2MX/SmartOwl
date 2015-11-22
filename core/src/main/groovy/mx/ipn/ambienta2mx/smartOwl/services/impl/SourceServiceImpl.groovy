@@ -38,6 +38,11 @@ class SourceServiceImpl implements SourceService{
       "http://${hostName}${station.replace(/10.htm/,"_10M.TXT")}"
     }
   }
+
+  def convertCoordinatesToDecimal(def coordinates){
+    def values = coordinates.collect{ new Float(it) }
+    new BigDecimal(values[0]+values[1]/60+values[2]/3600).setScale(4,BigDecimal.ROUND_HALF_UP)
+  } 
   
   def getFileUrlsOfCountry(){
     def countryFileUrls = [:]
