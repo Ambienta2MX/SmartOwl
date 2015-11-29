@@ -51,13 +51,4 @@ class ParseServiceSpec extends Specification{
       weatherInfo.cloudCover == 0.8
   }
 
-  Should "get the Levenshtein distance between the two strings"(){
-    given:"two strings"
-      def stringA = "Saturday" 
-      def stringB = "Sunday"
-    when:
-      def distance = service.getLevenshteinDistance(stringA,stringB)
-    then:
-      distance == 3
-  }
 }
