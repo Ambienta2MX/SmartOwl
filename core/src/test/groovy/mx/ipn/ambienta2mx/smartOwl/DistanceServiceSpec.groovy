@@ -3,6 +3,7 @@ package mx.ipn.ambienta2mx.smartOwl
 import mx.ipn.ambienta2mx.smartOwl.services.impl.DistanceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
+import spock.lang.Shared
 import java.lang.Void as Should
 
 class DistanceServiceSpec extends Specification{

@@ -9,4 +9,8 @@ class DistanceServiceImpl implements DistanceService{
   def levenshteinDistance(String stringA,String stringB){
 
   } 
+
+  def minimum(Long a,Long b,Long c){
+    Math.min(Math.min(a,b),c)
+  }
 }
