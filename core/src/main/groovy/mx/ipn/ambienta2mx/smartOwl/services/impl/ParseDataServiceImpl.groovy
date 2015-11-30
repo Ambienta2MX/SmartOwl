@@ -1,11 +1,12 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+import org.jsoup.Jsoup
 import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
 import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 import mx.ipn.ambienta2mx.smartOwl.domain.Weather
 import mx.ipn.ambienta2mx.smartOwl.domain.Pollution
-import org.springframework.stereotype.Service
-import org.jsoup.Jsoup
+import mx.ipn.ambienta2mx.smartOwl.enums.AirQualityDescription
 
 @Service
 class ParseDataServiceImpl implements ParseDataService{
@@ -92,13 +93,7 @@ class ParseDataServiceImpl implements ParseDataService{
   }
 
   private String getQualityAir(String qualityAir){
-    //TODO:Replace for Enum
-    ["Moderate":"Moderado",
-     "Good":"Bueno",
-     "no data":"Sin datos",
-     "Unhealthy":"Insalubre",
-     "Very Unhealthy":"Muy Insalubre",
-     "Hazardous":"Arriesgado"]
+    AirQualityDescription.valueOf(qualityAir.toUpperCase())
   }
 
 }
