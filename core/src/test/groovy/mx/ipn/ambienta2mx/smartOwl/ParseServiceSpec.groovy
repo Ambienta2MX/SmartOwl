@@ -1,19 +1,18 @@
 package mx.ipn.ambienta2mx.smartOwl
 
-import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
-import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import spock.lang.Specification
 import spock.lang.Unroll
 import spock.lang.Shared
 import spock.lang.Ignore
 import java.lang.Void as Should
+import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 
 class ParseServiceSpec extends Specification{
  
   @Shared service = new ParseDataServiceImpl()
 
   SourceServiceImpl sourceServiceImpl 
-   
 
   @Ignore
   @Unroll("Given the #_logitude and #_altitude") 

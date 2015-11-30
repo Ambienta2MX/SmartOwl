@@ -50,6 +50,7 @@ project(':core'){
     compile("org.springframework.boot:spring-boot-starter-test")
     compile("org.springframework.boot:spring-boot-starter-redis")
     compile("org.jsoup:jsoup:1.7.2")
+    compile("com.github.groovy-wslite:groovy-wslite:1.1.2")
   }
 
   test{
