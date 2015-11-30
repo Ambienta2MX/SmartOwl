@@ -69,7 +69,6 @@ class ParseDataServiceImpl implements ParseDataService{
     def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
                                                                  'longitude':longitude])
 
-    println model
     def pollution = new Pollution(airQuality:model.airQuality,
                                   ozone:model.ozone,
                                   sulphurDiode:model.sulphurDiode,
