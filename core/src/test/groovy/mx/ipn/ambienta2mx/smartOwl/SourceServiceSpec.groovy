@@ -39,4 +39,13 @@ class SourceServiceSpec extends Specification{
         23.543  | -103.025
   }
 
+  Should "get the pollution info"(){
+    given:"the image code"
+      String imageCode = "_842w8j28siIzOV8_1NFXISI_OSMzNzMnOR8A"
+    when:
+      def html= service.getTablesWithPollutionData(imageCode)
+    then:
+      html.startsWith("<table")
+  }
+
 }
