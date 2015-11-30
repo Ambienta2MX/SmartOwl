@@ -8,18 +8,19 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import mx.ipn.ambienta2mx.smartOwl.services.impl.ParseDataServiceImpl
+import mx.ipn.ambienta2mx.smartOwl.services.impl.PollutionServiceImpl
 
 @RestController
 @RequestMapping(value="/pollution")
 class PollutionController{
 
   @Autowired
-  ParseDataServiceImpl parseDataService
+  PollutionServiceImpl pollutionServiceImpl
 
   @RequestMapping(method= RequestMethod.GET)
   ResponseEntity<Map> show(@RequestParam(value="latitude")String latitude,@RequestParam(value="longitude")String longitude){
-    def model = parseDataService.getPollutionModelFromJSON(latitude,longitude)
+    
+    def model = pollutionServiceImpl.findPollutionModel(latitude,longitude)
     new ResponseEntity<Map>(model,HttpStatus.OK)
   }
 
