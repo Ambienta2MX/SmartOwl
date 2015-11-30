@@ -13,24 +13,7 @@ class ParseServiceSpec extends Specification{
   @Shared service = new ParseDataServiceImpl()
 
   SourceServiceImpl sourceServiceImpl 
- 
-  @Ignore
-  @Unroll("Should get the longitude #_longitude and altitude #_altitude given the url: #_url") 
-  def "Should get the longitude and altitude"(){
-    given:"an url and the lines of the readed file"
-      def url = "http://smn.cna.gob.mx/emas/txt/DF15_10M.TXT" 
-      
-    when:
-      def locationInfo = service.getLocationInfo(lines)
-    then:
-      assert true
-    where:
-      _longitude    | _altitude | _url
-      "19°18'36\""  | 2348      | "http://smn.cna.gob.mx/emas/txt/DF15_10M.TXT"
-      "99°12'14\""  | 2200      | "http://smn.cna.gob.mx/emas/txt/DF06_10M.TXT"
-      "99°09'44\""  | 2946      | "http://smn.cna.gob.mx/emas/txt/DF08_10M.TXT"
-      "99°09'29\""  | 2281      | "http://smn.cna.gob.mx/emas/txt/DF09_10M.TXT"
-  }
+   
 
   @Ignore
   @Unroll("Given the #_logitude and #_altitude") 
@@ -49,6 +32,16 @@ class ParseServiceSpec extends Specification{
       weatherInfo.class.simpleName == "Weather" 
       weatherInfo.humidity == 0.85
       weatherInfo.cloudCover == 0.8
+  }
+
+  Should "get the pollution info model"(){
+    given:"the html" 
+      def path = this.class.classLoader.getResource("HtmlToParse.html").getFile()
+      def html = new File(path).text
+    when:
+      def model = service.getPollutionModelFromHtml(html)
+    then:
+      model.airQuality == "78"
   }
 
 }

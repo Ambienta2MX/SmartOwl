@@ -4,4 +4,5 @@ interface ParseDataService{
   def getWeatherModelFromFile(File file)
   def getWeatherModelFromJSON(latitude,longitude);
   def getPollutionModelFromJSON(latitude,longitude);
+  def getPollutionModelFromHtml(String html)
 }
