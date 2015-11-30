@@ -5,6 +5,7 @@ import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 import mx.ipn.ambienta2mx.smartOwl.domain.Weather
 import mx.ipn.ambienta2mx.smartOwl.domain.Pollution
 import org.springframework.stereotype.Service
+import org.jsoup.Jsoup
 
 @Service
 class ParseDataServiceImpl implements ParseDataService{
@@ -77,6 +78,28 @@ class ParseDataServiceImpl implements ParseDataService{
                                   uv:model.uv)
     ['PollutionInfo':pollution]
 
+  }
+
+  def getPollutionModelFromHtml(String html){
+    def table = Jsoup.parse(html) 
+    def data = table.select('.tdcur')
+    def airQualityDiv = table.select(".aqivalue")
+
+    [airQualityDescription:getQualityAir(airQualityDiv.attr("title")),
+     airQuality:airQualityDiv.text(),
+     sulphurDiode:data.find{ it.attr("id") == "cur_so2"}.text(),
+     nitrogenDioxide:data.find{ it.attr("id") == "cur_no2"}.text(),
+     carbonMonoxide:data.find{ it.attr("id") == "cur_o3"}.text()] 
+  }
+
+  private String getQualityAir(String qualityAir){
+    //TODO:Replace for Enum
+    ["Moderate":"Moderado",
+     "Good":"Bueno",
+     "no data":"Sin datos",
+     "Unhealthy":"Insalubre",
+     "Very Unhealthy":"Muy Insalubre",
+     "Hazardous":"Arriesgado"]
   }
 
 }
