@@ -16,17 +16,20 @@ class PollutionServiceImpl{
   SourceServiceImpl sourceService
 
   def findPollutionModel(String latitude,String longitude){
-    // conaguaStation[url], weatherUndergoundStation[id]
+    //TODO:Externalize urls
     def url = new URL("http://127.0.0.1:7777/pollutionStation?latitude=$latitude&longitude=$longitude")
     def imageCode = new JsonSlurper().parse(url).img
     def html = sourceService.getTablesWithPollutionData(imageCode)
     def pollutionModel = parseDataService.getPollutionModelFromHtml(html)
-    //TODO: Externalize HardAntUrl
-    def client = new RESTClient("http://127.0.0.1:7001")
-    def response = client.post(path:"/pollution",query:[sulphurDiode:pollutionModel.sulphurDiode,
-                                                        latitude:latitude,longitude:longitude])
-    
-    pollutionModel
+    pollutionModel.latitude = latitude
+    pollutionModel.longitude = longitude
+    def client = new RESTClient("http://192.168.100.4:7001")
+    def response = client.post(path:"/pollution",accept:ContentType.JSON){
+      type ContentType.JSON
+      json pollutionModel
+    }
+   
+    new JsonSlurper().parseText(response.contentAsString) 
   }
 
 }
