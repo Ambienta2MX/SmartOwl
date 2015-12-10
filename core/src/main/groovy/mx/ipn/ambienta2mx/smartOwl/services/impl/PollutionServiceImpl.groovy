@@ -3,12 +3,18 @@ package mx.ipn.ambienta2mx.smartOwl.services.impl
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import wslite.rest.*
 
 @Service
 class PollutionServiceImpl{
   
+  @Value("${modules.path.hardAnt}")
+  String hardAntUrl 
+  @Value("${modules.path.fastEagle}")
+  String fastEagleUrl
+
   @Autowired
   ParseDataServiceImpl parseDataService
 
