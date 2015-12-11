@@ -10,9 +10,9 @@ import wslite.rest.*
 @Service
 class PollutionServiceImpl{
   
-  @Value("${modules.path.hardAnt}")
+  @Value('${modules.path.hardAnt}')
   String hardAntUrl 
-  @Value("${modules.path.fastEagle}")
+  @Value('${modules.path.fastEagle}')
   String fastEagleUrl
 
   @Autowired
@@ -22,14 +22,13 @@ class PollutionServiceImpl{
   SourceServiceImpl sourceService
 
   def findPollutionModel(String latitude,String longitude){
-    //TODO:Externalize urls
-    def url = new URL("http://127.0.0.1:7777/pollutionStation?latitude=$latitude&longitude=$longitude")
+    def url = new URL("${fastEagleUrl}/pollutionStation?latitude=$latitude&longitude=$longitude")
     def imageCode = new JsonSlurper().parse(url).img
     def html = sourceService.getTablesWithPollutionData(imageCode)
     def pollutionModel = parseDataService.getPollutionModelFromHtml(html)
     pollutionModel.latitude = latitude
     pollutionModel.longitude = longitude
-    def client = new RESTClient("http://192.168.100.4:7001")
+    def client = new RESTClient("${hardAntUrl}")
     def response = client.post(path:"/pollution",accept:ContentType.JSON){
       type ContentType.JSON
       json pollutionModel
