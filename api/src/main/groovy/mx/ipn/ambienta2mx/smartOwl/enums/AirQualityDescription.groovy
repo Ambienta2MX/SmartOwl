@@ -5,6 +5,7 @@ enum AirQualityDescription{
   GOOD("Bueno"),
   NO_DATA("Sin datos"),
   UNHEALTHY("Insalubre"),
+  UNHEALTHY_FOR_SENSITIVE_GROUPS("Insalubre para grupos sensibles"),
   VERY_UNHEALTHY("Muy insalubre"),
   HAZARDOUS("Arriesgado")
 

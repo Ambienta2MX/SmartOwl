@@ -87,7 +87,7 @@ class ParseDataServiceImpl implements ParseDataService{
   }
 
   private String getQualityAir(String qualityAir){
-    AirQualityDescription.valueOf(qualityAir.toUpperCase())
+    AirQualityDescription.valueOf(qualityAir.toUpperCase().replace(" ","_"))
   }
 
 }
