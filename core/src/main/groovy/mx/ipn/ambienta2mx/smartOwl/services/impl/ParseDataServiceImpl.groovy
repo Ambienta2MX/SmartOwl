@@ -1,5 +1,6 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.jsoup.Jsoup
 import mx.ipn.ambienta2mx.smartOwl.services.ParseDataService
@@ -10,6 +11,11 @@ import mx.ipn.ambienta2mx.smartOwl.enums.AirQualityDescription
 
 @Service
 class ParseDataServiceImpl implements ParseDataService{
+
+  @Value('${sources.forecast.url}')
+  String apiUrl
+  @Value('${sources.forecast.token}')
+  String token
 
   @Autowired
   SourceService sourceService
@@ -39,13 +45,8 @@ class ParseDataServiceImpl implements ParseDataService{
   def getWeatherModelFromJSON(latitude,longitude){
     def sourceService = new SourceServiceImpl()
 
-    //Quitar url y token y obtener fuentes desde base
-    def url = "https://api.forecast.io/forecast"
-    def token = "754371a499f300218874a3d937c09830"
-
-    def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
+    def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                  'longitude':longitude])
-
     def weather = new Weather(precipIntensity:model.precipIntensity,
                               precipProbability:model.precipProbability,
                               temperature:model.temperature,
@@ -63,11 +64,7 @@ class ParseDataServiceImpl implements ParseDataService{
   def getPollutionModelFromJSON(latitude,longitude){
     def sourceService = new SourceServiceImpl()
 
-    //Quitar url y token y obtener fuentes desde base
-    def url = "https://api.forecast.io/forecast"
-    def token = "754371a499f300218874a3d937c09830"
-
-    def model = sourceService.getJSONFromUrlWithToken(url,token,['latitude':latitude,
+    def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                  'longitude':longitude])
 
     def pollution = new Pollution(airQuality:model.airQuality,
