@@ -1,13 +1,18 @@
 package mx.ipn.ambienta2mx.smartOwl.services.impl
 
-import org.springframework.stereotype.Service
 import groovy.json.JsonSlurper
+import org.springframework.stereotype.Service
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import mx.ipn.ambienta2mx.smartOwl.services.SourceService
 import mx.ipn.ambienta2mx.smartOwl.Api
 import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
 
 @Service
 class SourceServiceImpl implements SourceService{
+
+  @Value('${sources.airPollution.url}')
+  String airPollutionUrl
 
   def getJSONFromUrlWithToken(String url,String token,Map coordinates){
     def jsonSlurper = new JsonSlurper()
@@ -19,8 +24,7 @@ class SourceServiceImpl implements SourceService{
   }
 
   def getTablesWithPollutionData(String imageCode){
-    //TODO:Externalize URL
-    def url = "http://sg1.aqicn.org/aqicn/cache/webwgt/${imageCode}/widget.v1.js" 
+    def url = "${airPollutionUrl}/${imageCode}/widget.v1.js" 
     def text = url.toURL().readLines().first()
     def jsonSlurper = new JsonSlurper()
     text = text.replaceAll(/aqicnWidgetLoaderCallback\(|\);try.*\*\/|src='data:image\/png;base64,[a-zA-Z0-9+\/]+={0,2}'|nowrap[=true]?|true/,"")

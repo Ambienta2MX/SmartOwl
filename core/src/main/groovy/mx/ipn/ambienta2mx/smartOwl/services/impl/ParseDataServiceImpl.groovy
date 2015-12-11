@@ -43,10 +43,9 @@ class ParseDataServiceImpl implements ParseDataService{
   }
 
   def getWeatherModelFromJSON(latitude,longitude){
-    def sourceService = new SourceServiceImpl()
-
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
-                                                                 'longitude':longitude])
+                                                                    'longitude':longitude])
+
     def weather = new Weather(precipIntensity:model.precipIntensity,
                               precipProbability:model.precipProbability,
                               temperature:model.temperature,
@@ -62,10 +61,8 @@ class ParseDataServiceImpl implements ParseDataService{
   }
 
   def getPollutionModelFromJSON(latitude,longitude){
-    def sourceService = new SourceServiceImpl()
-
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
-                                                                 'longitude':longitude])
+                                                                    'longitude':longitude])
 
     def pollution = new Pollution(airQuality:model.airQuality,
                                   ozone:model.ozone,
