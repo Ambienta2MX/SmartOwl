@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import wslite.rest.*
+import mx.ipn.ambienta2mx.smartOwl.services.PollutionService
 
 @Service
-class PollutionServiceImpl{
+class PollutionServiceImpl implements PollutionService{
   
   @Value('${modules.path.hardAnt}')
   String hardAntUrl 
