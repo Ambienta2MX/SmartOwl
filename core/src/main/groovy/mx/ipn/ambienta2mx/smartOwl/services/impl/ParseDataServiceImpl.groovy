@@ -42,36 +42,29 @@ class ParseDataServiceImpl implements ParseDataService{
     }
   }
 
-  def getWeatherModelFromJSON(latitude,longitude){
+  def getWeatherModelFromJSON(latitude,longitude,weather){
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                     'longitude':longitude])
 
-    def weather = new Weather(precipIntensity:model.precipIntensity,
-                              precipProbability:model.precipProbability,
-                              temperature:model.temperature,
-                              apparentTemperature:model.apparentTemperature,
-                              humidity:model.humidity,
-                              windSpeed:model.windSpeed,
-                              windBearing:model.windBearing,
-                              visibility:model.visibility,
-                              cloudCover:model.cloudCover,
-                              pressure:model.pressure)
-
-    ['WeatherInfo':weather]
+    def fields = Weather.class.declaredFields.grep{ !it.synthetic }*.name
+    fields.each{ field ->
+      weather[field] = weather[field] ?: model[field]
+    }
+    
+    weather
   }
 
-  def getPollutionModelFromJSON(latitude,longitude){
+  def getPollutionModelFromJSON(latitude,longitude,pollution){
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                     'longitude':longitude])
 
-    def pollution = new Pollution(airQuality:model.airQuality,
-                                  ozone:model.ozone,
-                                  sulphurDiode:model.sulphurDiode,
-                                  nitrogenDioxide:model.nitrogenDioxide,
-                                  carbonMonoxide:model.carbonMonoxide,
-                                  uv:model.uv)
-    ['PollutionInfo':pollution]
+    def fields = Pollution.class.declaredFields.grep{ !it.synthetic }*.name
 
+    fields.each{ field ->
+      pollution[field] = pollution[field] ?: model[field]
+    }
+    
+    pollution 
   }
 
   def getPollutionModelFromHtml(String html){
