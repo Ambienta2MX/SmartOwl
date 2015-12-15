@@ -8,7 +8,7 @@ class Weather{
   Double precipProbability
   Double rainfallIntensity
   Double rainfallProbability
-  Double temperature  
+  Double temperature
   Double apparentTemperature
   Double dewPoint
   Double humidity
@@ -18,6 +18,6 @@ class Weather{
   Double visibility
   Double cloudCover
   Double pressure
-  List<String> provider
+  List<String> provider = []
   Date dateCreated
 }
