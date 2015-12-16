@@ -26,12 +26,24 @@ class WeatherServiceImpl implements WeatherService{
   SourceServiceImpl sourceService
 
   def findWeatherModel(String latitude,String longitude){
-    //TODO:Fill Model with data
     def weather = new Weather()    
     weather.dateCreated = new Date()
     weather = getDataFromWeatherUnderground(weather,latitude,longitude)
-    //def conaguaStationUrl = new URL("${fastEagleUrl}/conaguaStation?latitude=$latitude&longitude=$longitude");
-    //def conaguaInfo = new JsonSlurper().parse(conaguaStationUrl)
+    weather = getDataFromForecast(weather,latitude,longitude)
+    def fields = weather.class.declaredFields.findAll{ !it.synthetic }*.name
+    def weatherModel = [:]
+    fields.each{ field ->
+      weatherModel[field] = weather[field]
+    } 
+    weatherModel.latitude = latitude
+    weatherModel.longitude = longitude
+
+    def client = new RESTClient("${hardAntUrl}")
+    def response = client.post(path:"/weather",accept:ContentType.JSON){
+      type ContentType.JSON
+      json weatherModel
+    }
+
     weather
   }
 
@@ -53,5 +65,9 @@ class WeatherServiceImpl implements WeatherService{
 
     weather
   }
+
+  def getDataFromForecast(Weather weather,String latitude,String longitude){
+    parseDataService.getWeatherModelFromJSON(latitude,longitude,weather)
+  } 
 
 }

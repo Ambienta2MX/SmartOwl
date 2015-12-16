@@ -50,7 +50,8 @@ class ParseDataServiceImpl implements ParseDataService{
     fields.each{ field ->
       weather[field] = weather[field] ?: model[field]
     }
-    
+
+    weather.provider << "Forecast.io"
     weather
   }
 
