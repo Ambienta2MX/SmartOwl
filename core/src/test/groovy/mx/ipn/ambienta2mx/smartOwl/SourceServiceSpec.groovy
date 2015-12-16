@@ -8,6 +8,7 @@ import java.util.Properties
 import java.lang.Void as Should
 import mx.ipn.ambienta2mx.smartOwl.services.impl.SourceServiceImpl
 import mx.ipn.ambienta2mx.smartOwl.enums.StateCode
+import org.springframework.test.util.ReflectionTestUtils
 
 class SourceServiceSpec extends Specification{
   
@@ -43,6 +44,7 @@ class SourceServiceSpec extends Specification{
     given:"the image code"
       String imageCode = "_842w8j28siIzOV8_1NFXISI_OSMzNzMnOR8A"
     when:
+      ReflectionTestUtils.setField(service,"airPollutionUrl","http://sg1.aqicn.org/aqicn/cache/webwgt");
       def html= service.getTablesWithPollutionData(imageCode)
     then:
       html.startsWith("<table")
