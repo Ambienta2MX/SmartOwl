@@ -3,7 +3,7 @@ buildscript{
     mavenCentral()
   }
   dependencies{
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE")
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.RELEASE")
   } 
 }
 
@@ -42,7 +42,10 @@ project(':core'){
     version='0.1.0'
   }
 
-  mainClassName = 'mx.ipn.ambienta2mx.smartOwl.Application' 
+  bootRepackage {
+    mainClass = 'mx.ipn.ambienta2mx.smartOwl.Application' 
+  }
+
   dependencies{
     compile project(':api')
     compile("org.springframework.boot:spring-boot-starter-web") 
