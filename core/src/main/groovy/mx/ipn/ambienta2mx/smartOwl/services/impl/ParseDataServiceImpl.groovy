@@ -45,12 +45,13 @@ class ParseDataServiceImpl implements ParseDataService{
   def getWeatherModelFromJSON(latitude,longitude,weather){
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                     'longitude':longitude])
-
-    def fields = Weather.class.declaredFields.grep{ !it.synthetic }*.name
+     
+    def fields = Weather.class.declaredFields.grep{ !it.synthetic }*.name.grep{ it != 'provider' }
     fields.each{ field ->
       weather[field] = weather[field] ?: model[field]
     }
 
+    weather.description = model.summary
     weather.provider << "Forecast.io"
     weather
   }
