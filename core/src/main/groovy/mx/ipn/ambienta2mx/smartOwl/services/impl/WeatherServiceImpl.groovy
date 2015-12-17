@@ -43,8 +43,8 @@ class WeatherServiceImpl implements WeatherService{
       type ContentType.JSON
       json weatherModel
     }
-
-    weather
+    
+    new JsonSlurper().parseText(response.contentAsString)
   }
 
   def getDataFromWeatherUnderground(Weather weather,String latitude,String longitude){
