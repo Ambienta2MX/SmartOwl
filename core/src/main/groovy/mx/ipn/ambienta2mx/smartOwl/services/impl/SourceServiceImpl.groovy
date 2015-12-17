@@ -18,7 +18,7 @@ class SourceServiceImpl implements SourceService{
     def jsonSlurper = new JsonSlurper()
     def api = Api.instance
     api.setApiUrlAndClientKey(url,token)
-    def connection = new URL("${api.getApiUrlRequest()}/${coordinates.latitude},${coordinates.longitude}")
+    def connection = new URL("${api.getApiUrlRequest()}/${coordinates.latitude},${coordinates.longitude}?options=si")
     def jsonStructure = jsonSlurper.parseText(connection.text)
     jsonStructure.currently
   }
