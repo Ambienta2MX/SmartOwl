@@ -60,12 +60,14 @@ class ParseDataServiceImpl implements ParseDataService{
     def model = sourceService.getJSONFromUrlWithToken(apiUrl,token,['latitude':latitude,
                                                                     'longitude':longitude])
 
-    def fields = Pollution.class.declaredFields.grep{ !it.synthetic }*.name
+    def fields = Pollution.class.declaredFields.grep{ !it.synthetic }*.name.grep{ it != 'provider' }
 
     fields.each{ field ->
       pollution[field] = pollution[field] ?: model[field]
     }
-    
+     
+    pollution.provider << "Forecast.io"
+
     pollution 
   }
 
@@ -74,11 +76,11 @@ class ParseDataServiceImpl implements ParseDataService{
     def data = table.select('.tdcur')
     def airQualityDiv = table.select(".aqivalue")
 
-    [airQualityDescription:getQualityAir(airQualityDiv.attr("title")),
-     airQuality:airQualityDiv.text(),
-     sulphurDiode:data.find{ it.attr("id") == "cur_so2"}.text(),
-     nitrogenDioxide:data.find{ it.attr("id") == "cur_no2"}.text(),
-     carbonMonoxide:data.find{ it.attr("id") == "cur_o3"}.text()] 
+    new Pollution(airQualityDescription:getQualityAir(airQualityDiv.attr("title")),
+                  airQuality:new Integer(airQualityDiv.text() ?: 0),
+                  sulphurDiode:new Double(data.find{ it.attr("id") == "cur_so2"}.text() ?: 0),
+                  nitrogenDioxide:new Double(data.find{ it.attr("id") == "cur_no2"}.text() ?: 0),
+                  carbonMonoxide:new Double(data.find{ it.attr("id") == "cur_o3"}.text() ?: 0))
   }
 
   private String getQualityAir(String qualityAir){
